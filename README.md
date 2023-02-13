@@ -1,3 +1,3 @@
-# FAC26 | Client-Side-App | D.G.K.
+# FAC26 | Client-Side-App | Dominic, Georgia, Natalia
 
 ## A README
