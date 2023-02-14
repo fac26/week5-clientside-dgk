@@ -1,8 +1,15 @@
-import { useState } from 'react'
-import './App.css'
+// import { useState } from 'react'
+import Game from "./Components/Game";
+
 
 function App() {
 
+    return (
+      <div>
+        <Game />
+      </div>
+    );
+
 }
 
-export default App
+export default App;
