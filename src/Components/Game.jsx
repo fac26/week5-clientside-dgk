@@ -1,23 +1,38 @@
 import Button from "./Button";
 import Actions from "./Actions";
 import { useState } from "react";
-import { generateDeck } from "../Helper/cards.js";
+import * as deckModule from "../Helper/cards.js";
 
-console.log(generateDeck())
+
 
 function Game() {
   const [deck, setDeck] = useState([]);//[value, setValue]
   const [playerCards, setPlayerCards] = useState([]);
+  // const [dealerCards, setDealerCards] = useState([]);
+
   
 
 
+const updatePlayerCards = () => {
+    const {randomCard, updatedDeck} = deckModule.getRandomCard(deck);
+    console.log(randomCard, ' random card')
+    setPlayerCards((prevPlayerCards) =>[...prevPlayerCards, randomCard]);
+    setDeck(updatedDeck);
+}
 
+
+const startGame = () => {
+    setDeck(deckModule.generateDeck()); //52
+    updatePlayerCards();
+    console.log(playerCards, 'player card', deck)
+
+}
     
   
     return (
       <div>
         <Actions />
-        <Button>Start Game</Button>
+        <Button click={startGame}>Start Game</Button>
       </div>
     );
 
