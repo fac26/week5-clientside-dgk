@@ -1,6 +1,7 @@
 import Card from "./Card";
 
 const Cards = props => {//<Cards currentCards={}/>
+  console.log(props)
   return (
     <ul>
       {props.currentCards.map(card=>(<Card 
