@@ -8,7 +8,7 @@ function Game() {
   const [deck, setDeck] = useState([]);
   const [playerCards, setPlayerCards] = useState([]);
   const [dealerCards, setDealerCards] = useState([]);
-  const [gameIsStarted, setgameIsStarted] = useState(false);
+  const [gameIsStarted, setGameIsStarted] = useState(false);
 
   useEffect(() => {
     console.log(deckModule.generateDeck());
@@ -31,7 +31,7 @@ function Game() {
 
     setDealerCards([dealerRandomCard1, dealerRandomCard2]);
     setDeck(updatedDeck4);
-    setgameIsStarted(true);
+    setGameIsStarted(true);
   };
 
   const startGame = () => {
@@ -39,17 +39,53 @@ function Game() {
     getStartingCards();
   };
 
+  const onStickHandler = () => {
+
+  }
+
+  const onHitHandler = () => {
+    const {randomCard, updatedDeck} = deckModule.getRandomCard(deck);
+    setDeck(updatedDeck);
+    setPlayerCards([...playerCards, randomCard])
+    console.log("clicked from game.jsx")
+  }
+
+  const calculateCards = (cards) => {
+    return cards.reduce((total, current) => {
+      let number = current.number;
+      if (isNaN(number)) {
+        // Handle face cards and aces
+        if (number === "A") {
+          if (total + 11 > 21) {
+            number = 1;
+          } else {
+            number = 11;
+          }
+        } else {
+          number = 10;
+        }
+      }
+      return total + number;
+    }, 0);
+  };
   return (
     <div>
-      <Actions />
+      
       {!gameIsStarted ? (
         <Button click={startGame}>Start Game</Button>
       ) : (
         <>
-          <Player name="Player" cards={playerCards} />
+          <Actions 
+            onStick={onStickHandler}
+            onHit={onHitHandler} />
+          <Player 
+            name="Player" 
+            cards={playerCards}
+            onTotal={calculateCards} />
           <Dealer name="Dealer" cards={dealerCards} />
-          <p>{deck.map(card=><p>{card.number}{card.suit}</p>)} All cards</p>
+          
         </>
+
       )}
     </div>
   );
