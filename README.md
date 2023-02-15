@@ -22,5 +22,8 @@ Run npm run dev to start the server.
   - [ ]   Score tracker
   - [ ]   Previous guesses
  
+ ## Deployment
+ 
+ - We are deploying our app to [Netlify](http://www.netlify.com). 
 
 
