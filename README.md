@@ -1,6 +1,6 @@
 ## FAC26 | Client-Side-App | Blackjack | [Dominic](https://github.com/DominicSimpson), [Georgia](https://github.com/rockyrelay), [Natalia](https://github.com/nataliarusu)
 
-## Our app recreates the popular card came Blackjack. 
+### Our app recreates the popular card came Blackjack. 
 
 ## Setup
 
