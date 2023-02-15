@@ -1,10 +1,12 @@
 ## FAC26 | Client-Side-App | Blackjack | [Dominic](https://github.com/DominicSimpson), [Georgia](https://github.com/rockyrelay), [Natalia](https://github.com/nataliarusu)
 
+![ace_of_spades](https://user-images.githubusercontent.com/52511353/219091848-7fd8496c-ca23-4db0-bb93-3ba3bd87755e.jpg)
+
 ### Our app recreates the popular card came Blackjack. 
 
 ## Setup
 
-Make sure you have Git and Node (v18) installed.
+Make sure you have Git and Node (v18) installed
 
 Clone this repo and cd into the directory
 
@@ -30,7 +32,7 @@ The game follows (mostly!) standard Blackjack rules.
 
 ♥️  ♠️ ♦️ ♣️ 
 
-Players attempt to reach a score of 21—without exceeding it (busting) — before the dealer hits 17. 
+Players attempt to reach a score of 21 — without exceeding it (busting) — before the dealer hits 17. 
 
 ♥️  ♠️ ♦️ ♣️ 
 
