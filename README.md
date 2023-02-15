@@ -64,4 +64,5 @@ The dealer process is automated - the game result will be rendered as soon as yo
 - The dealer automation occurs quite quickly - the end result will show the dealer's score, but will hide all the cards. 
 - We have not yet implemented functionality to keep track of your score - sorry! 
 - We still have some working notes hanging in the ```main``` branch.
+- The background will depend on your local device settings (dark vs light).
 
