@@ -10,8 +10,6 @@ Clone this repo and cd into the directory
 
 Run npm install to install all the dependencies
 
-Run npm run seed to seed the local database.
-
 Run npm run dev to start the server.
 
 ## Criteria
