@@ -17,8 +17,9 @@ Run npm run dev to start the server.
 ## Criteria
 
 - [ ] Accept at least 2 kinds of user input
-- [ ] - Have some form of persistent state and interactivity, e.g.
-  - [ ] - Countdown timer
+- [ ] Have some form of persistent state and interactivity, e.g.
+  - [ ]   Countdown timer
+  - [ ] 
  
 
 
