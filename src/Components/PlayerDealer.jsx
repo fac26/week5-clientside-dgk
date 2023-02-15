@@ -11,8 +11,7 @@ function Player(props) {
 }
 
 function Dealer(props) {
-  const cards = props.isSticked?props.cards:[props.cards[0]];
-
+  const cards = props.isSticked || props.mode=='over'?props.cards:[props.cards[0]];
   return (
     <div className="dealer-cards">
       <h3>{props.name} Cards:</h3>
