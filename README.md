@@ -21,7 +21,7 @@ Run ```npm run dev``` to run the app locally
 ## Criteria
 
 - [x] Accept at least 2 kinds of user input
-- [ ] Have some form of persistent state and interactivity, e.g.
+- [x] Have some form of persistent state and interactivity, e.g.
   - [ ]   Countdown timer
   - [ ]   Score tracker
   - [ ]   Previous guesses
