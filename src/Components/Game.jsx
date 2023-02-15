@@ -19,14 +19,14 @@ function Game() {
   const [result, setResult]=useState('');
 
   
-  const startGameHandler=()=>{
-    console.log(mode)
-    // setMode('start');
-    console.log('game started afresh')
-    setMode('inProgress');
+  const startGameHandler = () => {
+    setMode("inProgress");
+    setSticked(false);
+    setResult("");
+    setDeck(deckModule.generateDeck());
     getStartingCards();
-  }
-
+  };
+  
 
   useEffect(() => {
     setDeck(deckModule.generateDeck()); //52
@@ -61,7 +61,7 @@ function Game() {
   const onStickHandler = () => {
     setSticked(true);
     let deckCopy=[...deck];
-    let dealerCardsCopy = [...dealerCards];//doesn't update the state
+    const dealerCardsCopy = [...dealerCards];//doesn't update the state
 
     while (calculateCards(dealerCardsCopy) < DEALER_MAX_VALUES) {
       const { randomCard, updatedDeck } = deckModule.getRandomCard(deckCopy);

@@ -16,4 +16,5 @@ const Cards = props => {//<Cards currentCards={}/>
 
 export default Cards;
 
+
 //[{number: 8, suit: '♠', id},{number: 10, suit: '♠'}] with props ===player
