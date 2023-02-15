@@ -18,11 +18,27 @@ function Game() {
   const [sticked, setSticked]=useState(false);//add logic when sticked!
   const [result, setResult]=useState('');
 
-  
+
+  useEffect(()=>{
+    if(mode=='over'){
+      setDealerCards([]);
+      setPlayerCards([]);
+      setSticked(false);
+      console.log('useEffect reset')
+    } 
+
+  }, [mode])
+
   const startGameHandler=()=>{
-    console.log(mode)
+    console.log(mode, ' startHandler')
+    console.log(sticked, ' stickHandler')
     setMode('inProgress');
+    
     getStartingCards();
+    
+    // setDealerCards([]);
+    // setPlayerCards([]);
+
   }
  
 
@@ -35,15 +51,21 @@ function Game() {
   //check game is over
   useEffect(()=>{
 
-    const gameOver = checkGameIsOver();
-    if(gameOver.isOver){
-      setMode('over');
-      setResult(gameOver);
-      console.log(gameOver)
-    }
+   
+      const gameOver = checkGameIsOver();
+      console.log(dealerCards, playerCards, ' inside check game over')
+      if(gameOver.isOver){
+        setMode('over');
+        setResult(gameOver);
+        console.log(gameOver)
+      }
+      console.log(gameOver, ' from useEffect')
     
-  }, [dealerCards, playerCards])
+    
 
+
+   
+  }, [dealerCards, playerCards, sticked])
 
 
   const getStartingCards = () => {
@@ -58,16 +80,31 @@ function Game() {
   }
 
   const onStickHandler = () => {
-    //disable hit button
+    //disable both stick and hit
     setSticked(true);
-    if(calculateCards(dealerCards)< DEALER_MAX_VALUES){
-      generateDealerCards();
+
+    // if(calculateCards(dealerCards)< DEALER_MAX_VALUES){
+    //   generateDealerCards();
+    // }
+
+    let deckCopy = [...deck];
+    const dealerCardsCopy = [...dealerCards];
+    while(calculateCards(dealerCardsCopy)<DEALER_MAX_VALUES){
+      const { randomCard, updatedDeck } = deckModule.getRandomCard(deckCopy);
+      dealerCardsCopy.push(randomCard);
+      deckCopy = updatedDeck;
+      console.log(dealerCardsCopy)
     }
-   
+
+    setDealerCards([...dealerCardsCopy]);
+    setDeck([...dealerCardsCopy]);
 
   }
 
  const generateDealerCards=()=>{
+  const checkIfOver = checkGameIsOver();
+  console.log(' on generating card ', checkIfOver)
+
   console.log(calculateCards(dealerCards), ' calculate dealerCards')
     const {randomCard, updatedDeck} = deckModule.getRandomCard(deck);
     setDeck(updatedDeck);
@@ -84,6 +121,7 @@ function Game() {
 
 
   const calculateCards = (cards) => {
+    console.log('inside calculateing cards ', cards)
     return cards.reduce((total, current) => {
       let number = current.number;
       if (isNaN(number)) {
@@ -115,12 +153,19 @@ function Game() {
       result.playerScore=playerResult ;
       return result;
     }
-    if(dealerResult >21){
+    if(dealerResult >=21){
       result.message='Dealer lose';
       result.isOver=true;
       result.dealerScore=dealerResult ;
       result.playerScore=playerResult ;
       return result
+    }
+    if(sticked && dealerResult >=17){
+      result.message='Player lose';
+      result.isOver=true;
+      result.dealerScore=dealerResult;
+      result.playerScore=playerResult ;
+      return result;
     }
     return result;
   }
@@ -138,7 +183,7 @@ function Game() {
             name="Player" 
             cards={playerCards}
             onTotal={calculateCards} />
-          <Dealer name="Dealer" cards={dealerCards} onTotal={calculateCards} />
+          <Dealer name="Dealer" cards={dealerCards} onTotal={calculateCards} isSticked={sticked}/>
           </>
     
   :null}
