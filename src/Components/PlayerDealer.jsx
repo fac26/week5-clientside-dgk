@@ -15,7 +15,9 @@ function Dealer(props) {
     <div>
       <h3>{props.name} Cards:</h3>
       {props.cards.map((card, index) => (
-        <p key={card.id}>{card.number}{card.suit}</p>
+        <p key={index}>
+          {index === 0 ? "Hidden" : `${card.number}${card.suit}`}
+        </p>
       ))}
     </div>
   );
