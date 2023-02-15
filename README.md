@@ -1,5 +1,7 @@
 ## FAC26 | Client-Side-App | Blackjack | [Dominic](https://github.com/DominicSimpson), [Georgia](https://github.com/rockyrelay), [Natalia](https://github.com/nataliarusu)
 
+[View site deployed to Netlify](https://week5-clientside-dgn.netlify.app/)
+
 ![ace_of_spades](https://user-images.githubusercontent.com/52511353/219091848-7fd8496c-ca23-4db0-bb93-3ba3bd87755e.jpg)
 
 ### Our app recreates the popular card came Blackjack. 
