@@ -1,10 +1,10 @@
+import Cards from "./Cards";
+
 function Player(props) {
   return (
-    <div>
+    <div className="player-cards">
       <h3>{props.name} Cards:</h3>
-      {props.cards.map((card) => (
-        <p key={card.id}>{card.number}{card.suit}</p>
-      ))}
+      <Cards currentCards={props.cards}/>
       <p>{props.onTotal(props.cards)}</p>
     </div>
   );
@@ -12,11 +12,10 @@ function Player(props) {
 
 function Dealer(props) {
   return (
-    <div>
+    <div className="dealer-cards">
       <h3>{props.name} Cards:</h3>
-      {props.cards.map((card, index) => (
-        <p key={card.id}>{card.number}{card.suit}</p>
-      ))}
+      <Cards currentCards={props.cards}/>
+      <p>{props.onTotal(props.cards)}</p>
     </div>
   );
 }
