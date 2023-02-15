@@ -12,8 +12,8 @@ const Actions = props => {
   }
   return (
     <div className={styles.actions}>
-      <Button id="stick" click={stickHandler} classes='stick'>Stick</Button>
-      <Button id="hit" click={hitHandler} classes='hit'>Hit</Button>
+      <Button id="stick" click={stickHandler} classes='stick' disabled={props.disabled}>Stick</Button>
+      <Button id="hit" click={hitHandler} classes='hit' disabled={props.disabled}>Hit</Button>
 
     </div>
   );

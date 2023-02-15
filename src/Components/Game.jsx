@@ -21,10 +21,11 @@ function Game() {
   
   const startGameHandler=()=>{
     console.log(mode)
+    setMode('start');
+    console.log('game started afresh')
     setMode('inProgress');
     getStartingCards();
   }
- 
 
 
   useEffect(() => {
@@ -58,14 +59,36 @@ function Game() {
   }
 
   const onStickHandler = () => {
-    //disable hit button
     setSticked(true);
-    if(calculateCards(dealerCards)< DEALER_MAX_VALUES){
-      generateDealerCards();
-    }
-   
+    let deckCopy=[...deck];
+    let dealerCardsCopy = [...dealerCards];//doesn't update the state
 
-  }
+    while (calculateCards(dealerCardsCopy) < DEALER_MAX_VALUES) {
+      const { randomCard, updatedDeck } = deckModule.getRandomCard(deckCopy);
+      dealerCardsCopy.push(randomCard);
+      //setDeck(updatedDeck);
+      deckCopy=updatedDeck;
+
+      //setDealerCards(dealerCardsCopy);
+      
+    }
+    setDeck(deckCopy);
+    setDealerCards(dealerCardsCopy);
+
+    const playerTotal = calculateCards(playerCards);
+    const dealerTotal = calculateCards(dealerCardsCopy);
+    let gameResult = '';
+    if (playerTotal > 21 || (dealerTotal <= 21 && dealerTotal > playerTotal)) {
+      gameResult = 'Dealer wins';
+    } else if (dealerTotal > 21 || playerTotal > dealerTotal) {
+      gameResult = 'Player wins';
+    } else {
+      gameResult = 'Tie game';
+    }
+    setResult(gameResult);
+    setMode('over');
+  };
+  
 
  const generateDealerCards=()=>{
   console.log(calculateCards(dealerCards), ' calculate dealerCards')
@@ -102,30 +125,34 @@ function Game() {
     }, 0);
   };
 
-  const checkGameIsOver=()=>{
-   const result={message:'', isOver: false};
-   const playerResult = calculateCards(playerCards);
-   const dealerResult = calculateCards(dealerCards);
-
-    //console.log(calculateCards(playerCards), ' calculatePlayerCards, gameisOver')
-    if(playerResult >=21){
-      result.message='Player lose';
-      result.isOver=true;
-      result.dealerScore=dealerResult;
-      result.playerScore=playerResult ;
+  const checkGameIsOver = () => {
+    const result = { message: "", isOver: false, dealerScore: 0, playerScore: 0 };
+    const playerResult = calculateCards(playerCards);
+    const dealerResult = calculateCards(dealerCards);
+  
+    if (playerResult > 21) {
+      result.message = "Player has bust, dealer wins!";
+    } else if (dealerResult > 21) {
+      result.message = "Dealer has bust, player wins!";
+    } else if (sticked && dealerResult >= DEALER_MAX_VALUES) {
+      if (playerResult > dealerResult) {
+        result.message = "Player wins!";
+      } else if (dealerResult > playerResult) {
+        result.message = "Dealer wins!";
+      } else {
+        result.message = "Tie game!";
+      }
+    } else {
       return result;
     }
-    if(dealerResult >21){
-      result.message='Dealer lose';
-      result.isOver=true;
-      result.dealerScore=dealerResult ;
-      result.playerScore=playerResult ;
-      return result
-    }
-    return result;
-  }
   
- 
+    result.isOver = true;
+    result.dealerScore = dealerResult;
+    result.playerScore = playerResult;
+    return result;
+  };
+  
+  
   return (
     <div className={styles.game}>
        {mode=='start'|| mode=='over'?<Button click={startGameHandler} classes='start'>Start game</Button>:null}
@@ -133,7 +160,8 @@ function Game() {
      <>
           <Actions 
             onStick={onStickHandler}
-            onHit={onHitHandler} />
+            onHit={onHitHandler}
+            disabled={sticked} />
           <Player 
             name="Player" 
             cards={playerCards}
