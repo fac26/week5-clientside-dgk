@@ -12,21 +12,28 @@ Make sure you have Git and Node (v18) installed
 
 Clone this repo and cd into the directory
 
-Run npm install to install all the dependencies
+Run ```npm install``` to install all the dependencies
 
-Run npm run dev to start the server
+Run ```npm run dev``` to run the app locally 
+
+---
 
 ## Criteria
 
-- [ ] Accept at least 2 kinds of user input
+- [x] Accept at least 2 kinds of user input
 - [ ] Have some form of persistent state and interactivity, e.g.
   - [ ]   Countdown timer
   - [ ]   Score tracker
   - [ ]   Previous guesses
+  
+---
  
  ## Deployment
  
- - We are deploying our app to [Netlify](http://www.netlify.com). 
+ - We are deploying our app via [Netlify](http://www.netlify.com).
+ - Our live site lives [here](https://week5-clientside-dgn.netlify.app/).
+ 
+ ---
 
 ## Rules of the game
 
@@ -50,4 +57,11 @@ Players attempt to reach a score of 21 — without exceeding it (busting) — be
 
 The dealer process is automated - the game result will be rendered as soon as you click stick - good luck! 🃏
 
+---
+
+## Code Review Considerations
+
+- The dealer automation occurs quite quickly - the end result will show the dealer's score, but will hide all the cards. 
+- We have not yet implemented functionality to keep track of your score - sorry! 
+- We still have some working notes hanging in the ```main``` branch.
 
