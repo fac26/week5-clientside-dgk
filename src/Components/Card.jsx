@@ -1,10 +1,15 @@
-const Card = props => {//{number: 8, suit: '♠'}
+import styles from './Card.module.css';
 
-    return ( 
-      <div className={classes.card}>
-        <p>{props.number}</p>
-        <p>{props.suit}</p>
-      </div>
+const Card = props => {//{number: 8, suit: '♠'}
+    const color = (props.suit === '♦' || props.suit === '♥') ? styles.red:'';
+ 
+
+    return (
+
+      <li className={`${styles.card} ${color}`}>
+        <p className="card-number">{props.number}</p>
+        <p className="class-suit">{props.suit}</p>
+      </li>
     )
 
 }

@@ -1,3 +1,21 @@
 .card {
   background-color: gainsboro;
+  width: 5rem;
+  height: 8rem;
+  border-radius: 5px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 1.5rem;
+  color: black;
+}
+
+.card > * {
+  
+
+}
+.card.red{
+  color: red;
 }

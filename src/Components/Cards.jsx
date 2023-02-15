@@ -1,9 +1,9 @@
 import Card from "./Card";
+import styles from './Cards.module.css';
 
 const Cards = props => {//<Cards currentCards={}/>
-  console.log(props)
   return (
-    <ul>
+    <ul className={styles.cards}>
       {props.currentCards.map(card=>(<Card 
         key={card.id}
         number={card.number}
