@@ -20,6 +20,7 @@ Run npm run dev to start the server.
 - [ ] Have some form of persistent state and interactivity, e.g.
   - [ ]   Countdown timer
   - [ ]   Score tracker
+  - [ ]   Previous guesses
  
 
 
