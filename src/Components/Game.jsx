@@ -21,7 +21,7 @@ function Game() {
   
   const startGameHandler=()=>{
     console.log(mode)
-    setMode('start');
+    // setMode('start');
     console.log('game started afresh')
     setMode('inProgress');
     getStartingCards();
@@ -174,8 +174,5 @@ function Game() {
   </div>
   );
 }
-
-
-// 
 
 export default Game;
