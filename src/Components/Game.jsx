@@ -8,8 +8,6 @@ import styles from './Game.module.css';
 
 const DEALER_MAX_VALUES = 17;
 
-
-
 function Game() {
   const [deck, setDeck] = useState([]);//[value, setValue]
   const [playerCards, setPlayerCards] = useState([]);
@@ -18,34 +16,45 @@ function Game() {
   const [sticked, setSticked]=useState(false);//add logic when sticked!
   const [result, setResult]=useState('');
 
-  
-  const startGameHandler = () => {
-    setMode("inProgress");
+
+  const startGameHandler=()=>{
+    setDealerCards([]);
+    setPlayerCards([]);
     setSticked(false);
-    setResult("");
-    setDeck(deckModule.generateDeck());
     getStartingCards();
-  };
-  
+    setMode('inProgress');
+  }
 
   useEffect(() => {
-    setDeck(deckModule.generateDeck()); //52
+    setDeck(deckModule.generateDeck()); //first time only
   }, []) 
 
 
-  //check game is over
-  useEffect(()=>{
+  //check game is over when player or dealer cards change
+  useEffect(()=>{    
+      const gameOver = checkGameIsOver();
+      
+      if(gameOver.isOver){     
+          setMode('over');
+          setResult(gameOver);
+          setDeck(deckModule.generateDeck()); //52        
+      }
 
-    const gameOver = checkGameIsOver();
-    if(gameOver.isOver){
-      setMode('over');
-      setResult(gameOver);
-      console.log(gameOver)
-    }
-    
   }, [dealerCards, playerCards])
 
+  useEffect(()=>{
+    if(sticked){
+      generateDealerCards();
+      const gameOver = checkGameIsOver();
+      if(gameOver.isOver){     
+          setMode('over');
+          setResult(gameOver);
+      }
+    }
 
+  }, [sticked])//when sticked state changes only
+
+ 
 
   const getStartingCards = () => {
     const { randomCard : randomCard1, updatedDeck: updateDeck1 } = deckModule.getRandomCard(deck);
@@ -60,43 +69,21 @@ function Game() {
 
   const onStickHandler = () => {
     setSticked(true);
-    let deckCopy=[...deck];
-    const dealerCardsCopy = [...dealerCards];//doesn't update the state
-
-    while (calculateCards(dealerCardsCopy) < DEALER_MAX_VALUES) {
-      const { randomCard, updatedDeck } = deckModule.getRandomCard(deckCopy);
-      dealerCardsCopy.push(randomCard);
-      //setDeck(updatedDeck);
-      deckCopy=updatedDeck;
-
-      //setDealerCards(dealerCardsCopy);
-      
-    }
-    setDeck(deckCopy);
-    setDealerCards(dealerCardsCopy);
-
-    const playerTotal = calculateCards(playerCards);
-    const dealerTotal = calculateCards(dealerCardsCopy);
-    let gameResult = '';
-    if (playerTotal > 21 || (dealerTotal <= 21 && dealerTotal > playerTotal)) {
-      gameResult = 'Dealer wins';
-    } else if (dealerTotal > 21 || playerTotal > dealerTotal) {
-      gameResult = 'Player wins';
-    } else {
-      gameResult = 'Tie game';
-    }
-    setResult(gameResult);
-    setMode('over');
   };
   
 
  const generateDealerCards=()=>{
-  console.log(calculateCards(dealerCards), ' calculate dealerCards')
-    const {randomCard, updatedDeck} = deckModule.getRandomCard(deck);
-    setDeck(updatedDeck);
-    setDealerCards(prevDealerCards=>[...prevDealerCards, randomCard])
-  
-  //console.log('done!')
+
+  let deckCopy = [...deck];
+  const dealerCardsCopy = [...dealerCards];
+  while(calculateCards(dealerCardsCopy)<DEALER_MAX_VALUES){
+    const { randomCard, updatedDeck } = deckModule.getRandomCard(deckCopy);
+    dealerCardsCopy.push(randomCard);
+    deckCopy = updatedDeck;
+  }
+
+  setDealerCards([...dealerCardsCopy]);
+  setDeck([...dealerCardsCopy]);
  }
 
   const onHitHandler = () => {
@@ -125,7 +112,7 @@ function Game() {
     }, 0);
   };
 
-  const checkGameIsOver = () => {
+  const checkGameIsOver= () =>{
     const result = { message: "", isOver: false, dealerScore: 0, playerScore: 0 };
     const playerResult = calculateCards(playerCards);
     const dealerResult = calculateCards(dealerCards);
@@ -150,28 +137,40 @@ function Game() {
     result.dealerScore = dealerResult;
     result.playerScore = playerResult;
     return result;
-  };
+  }
   
   
   return (
     <div className={styles.game}>
-       {mode=='start'|| mode=='over'?<Button click={startGameHandler} classes='start'>Start game</Button>:null}
-    { mode =='inProgress'?
-     <>
-          <Actions 
-            onStick={onStickHandler}
+      {mode=='start'|| mode=='over'
+        ?<Button click={startGameHandler} classes='start'>Start game</Button>
+        :null}
+      {mode=='inProgress'
+      ? <Actions 
+           onStick={onStickHandler}
             onHit={onHitHandler}
             disabled={sticked} />
+      :null}
+
+      { mode =='inProgress' || mode=='over'
+      ? <>
           <Player 
             name="Player" 
             cards={playerCards}
-            onTotal={calculateCards} />
-          <Dealer name="Dealer" cards={dealerCards} onTotal={calculateCards} />
+            onTotal={calculateCards} 
+          />
+           <Dealer 
+              name="Dealer" 
+              cards={dealerCards} 
+              onTotal={calculateCards} 
+              isSticked={sticked}
+              mode={mode}
+            />      
           </>
-    
-  :null}
-  {mode=='over'?<GameResult results={result}/>: null}
-  </div>
+      :null}
+
+      {mode=='over'?<GameResult results={result}/>: null}
+    </div>
   );
 }
 
